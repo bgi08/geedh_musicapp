@@ -58,13 +58,12 @@ android:id="@+id/search_btn"
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/musicRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom_bar"
         android:layout_below="@+id/top_bar"
         android:layout_marginBottom="10dp"
-        android:id="@+id/musicRecyclerView"
-
 
 
         />
@@ -134,7 +133,7 @@ android:id="@+id/search_btn"
             <androidx.cardview.widget.CardView
                 android:layout_width="90dp"
                 android:layout_height="100dp"
-                app:cardBackgroundColor="#7960E5"
+                app:cardBackgroundColor="#E6703A"
                 app:cardUseCompatPadding="true"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="10dp"
