@@ -11,6 +11,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.media.AudioManager;
@@ -23,6 +24,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,11 +42,12 @@ List<MusicList> musicLists=new ArrayList<>();
 RecyclerView musicView;
 musicAdapter musicAdapter;
 MediaPlayer mediaPlayer;
-TextView starttime,endtime;
+TextView starttime,endtime,musictitle;
 boolean isplaying=false;
 SeekBar playbar;
 ImageView playpauseimg;
 Timer timer;
+RelativeLayout rootlayout;
 int currentsongposition=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -293,8 +296,29 @@ mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
         isplaying=false;
         playpauseimg.setImageResource(R.drawable.play_icon);
         playbar.setProgress(0);
+        playnextsong();
     }
 });
     }
+public void playnextsong()
+{int nextposition = currentsongposition+1;
 
+    if(nextposition<=musicLists.size())
+    {
+        musicLists.get(currentsongposition).setIsplaying(false);
+        musicLists.get(nextposition).setIsplaying(true);
+        musicAdapter.updateSonglist(musicLists);
+        musicView.scrollToPosition(nextposition);
+        onSongChanged(nextposition);
+        nextposition++;
+    }
+   else
+    {
+        nextposition=0;
+    }
+
+
+
+
+}
 }

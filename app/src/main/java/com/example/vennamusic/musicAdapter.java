@@ -2,6 +2,7 @@ package com.example.vennamusic;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +65,9 @@ holder.rootlayout.setOnClickListener(new View.OnClickListener() {
         list.get(playingposition).setIsplaying(false);
 list2.setIsplaying(true);
 songChangeListener.onSongChanged(position);
+
 notifyDataSetChanged();
+
     }
 });
     }
