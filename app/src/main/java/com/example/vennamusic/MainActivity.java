@@ -14,6 +14,7 @@ import android.content.ContentUris;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.Image;
 import android.media.MediaPlayer;
@@ -109,13 +110,16 @@ int currentsongposition=0;
             public void onClick(View view) {
                 int previoussongposition=currentsongposition-1;
                 if(previoussongposition<=musicLists.size())
-                {
-                    previoussongposition=musicLists.size()-1;
+                {      musicLists.get(currentsongposition).setIsplaying(false);
+                    musicLists.get(previoussongposition).setIsplaying(true);
+                    musicAdapter.updateSonglist(musicLists);
+                    musicView.scrollToPosition(previoussongposition);
+
+
                 }
-                musicLists.get(currentsongposition).setIsplaying(false);
-                musicLists.get(previoussongposition).setIsplaying(true);
-                musicAdapter.updateSonglist(musicLists);
-                musicView.scrollToPosition(previoussongposition);
+                else {
+                    previoussongposition = musicLists.size() - 1;
+                }
 
                 onSongChanged(previoussongposition);
             }
@@ -128,13 +132,19 @@ int currentsongposition=0;
                     mediaPlayer.pause();
                     playpauseimg.setImageResource(R.drawable.play_icon);
                 }
+
+
+
                 else
-                {
+                {mediaPlayer.start();
                     isplaying=true;
-                    mediaPlayer.start();
+
                     playpauseimg.setImageResource(R.drawable.pause_icon);
                 }
+
+
             }
+
 
         });
         playbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -147,6 +157,7 @@ int currentsongposition=0;
                         mediaPlayer.seekTo(i);
 
                     }
+
                     else
                     {
                         mediaPlayer.seekTo(0);
@@ -236,7 +247,9 @@ if(mediaPlayer.isPlaying())
     mediaPlayer.pause();
     mediaPlayer.reset();
 }
+
 mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+
 new Thread(new Runnable() {
     @Override
     public void run() {
@@ -248,6 +261,7 @@ catch(IOException e)
 {
     e.printStackTrace();
     Toast.makeText(MainActivity.this,"Unable to play the selected track",Toast.LENGTH_SHORT).show();
+
 }
 
     }
@@ -285,7 +299,8 @@ timer.scheduleAtFixedRate(new TimerTask() {
         });
 
     }
-},1000,1000);
+},1000,500);
+
 mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
@@ -299,6 +314,7 @@ mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
         playnextsong();
     }
 });
+
     }
 public void playnextsong()
 {int nextposition = currentsongposition+1;

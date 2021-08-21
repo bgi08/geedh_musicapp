@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -37,18 +38,21 @@ return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull musicAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull musicAdapter.ViewHolder holder, int position)
+    {
         MusicList list2=list.get(position);
+        int position1=position;
 
 if(list2.Isplaying())
 {
-    playingposition=position;
+    playingposition=position1;
     holder.rootlayout.setBackgroundResource(R.drawable.round_back_blue_10);
 
 }
 else
 {
     holder.rootlayout.setBackgroundResource(R.drawable.round_back_10);
+
 }
 String generateDuration=String.format(Locale.getDefault(),"%02d:%02d",
         TimeUnit.MILLISECONDS.toMinutes(Long.parseLong(list2.getDuration())),
@@ -63,13 +67,14 @@ holder.rootlayout.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
         list.get(playingposition).setIsplaying(false);
-list2.setIsplaying(true);
-songChangeListener.onSongChanged(position);
-
-notifyDataSetChanged();
+        list2.setIsplaying(true);
+        songChangeListener.onSongChanged(position1);
+            notifyDataSetChanged();
 
     }
 });
+
+
     }
 public void updateSonglist(List<MusicList> list)
 {
